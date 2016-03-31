@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>banner test</title>
+	<style type="text/css">
+			body,ul,ol,li,h1,h2,h3,h4,h5,h6,article,p,input,div,nav,textarea,button{
+				margin:0;
+				padding:0;
+			}
+			html{
+				width:100%;
+				height:100%;
+			}
+			body {
+				width:100%;
+				height:100%;
+				overflow: hidden;
+				font-family: "Helvetica Neue", "Luxi Sans", "DejaVu Sans", Tahoma, "Hiragino Sans GB", STHeiti, "Microsoft YaHei";
+				font-size: 14px;
+				color: #333333;
+				background-color: white;
+			}	
+			#banner{
+					width:100%;
+					height:100%;
+					position:relative;
+					z-index:20;	
+			}
+			.banner-img{
+				width:100%;
+				height:100%;
+				position:relative;
+				overflow:hidden;
+			}
+			.banner-img a{
+				width:100%;
+				height:100%;
+				position:absolute;
+				background-position:center center;
+				background-repeat:no-repeat;
+				z-index:0;
+				right:-100%;
+			}
+			.banner-img a{
+				opacity:1;
+			}
+
+			.bannerdh{
+				position:absolute;
+				bottom:25px;
+				left:0;
+				text-align:center;
+				z-index:100;
+				width:100%;
+				height:10px;
+			}
+			.bannerdh span{
+				width:80px;
+				height:10px;
+				background-color:#262121;
+				cursor:pointer;
+				display:inline-block;
+				margin:0 8px;
+			}
+			.bannerdh .dhcurrent{
+				background-color:#D72626;
+			}
+	</style>
+	<script type="text/javascript" src="../../AaoPjy/jquery/jquery-2.2.2.js"></script>
+	<script type="text/javascript" src="mybanner.js"></script>
+</head>
+<body>
+	<div id="banner">
+		<div class="banner-img">
+			<a href="#" style="background-image:url(imgs/1.jpg);"></a>
+			<a href="#" style="background-image:url(imgs/2.jpg)"></a>
+			<a href="#" style="background-image:url(imgs/3.jpg)"></a>
+		</div>
+		<div class="bannerdh">
+			
+		</div>
+	</div>
+	<script type="text/javascript">
+		
+		/*$(function(){
+			$("#banner").banner({
+				autoplay:true,
+				autoSpeed:"2000",
+				clickspeed:"300"
+			});
+		})*/
+		/*用js实现轮播*/
+		function play(){
+			var banner = document.querySelector("#banner");
+			var bannerdh = document.querySelector(".bannerdh");
+			var imgs = banner.querySelectorAll("a");
+			var imgsLen = imgs.length;
+			var time = timer = null;
+			var index = 0;
+			/*添加banner切换按钮*/
+			for(var i=0;i<imgsLen;i++){
+				var span = document.createElement("span");
+				bannerdh.appendChild(span);
+			}
+			var spans = bannerdh.querySelectorAll("span");
+			/*初始化显示设置*/
+			imgs[0].style.right = "0";
+			spans[0].style.className = "dhcurrent";
+			/*自动播放*/
+			function autoplay(){
+					time = setInterval(show,2000);
+					banner.onmouseover = function(){
+						clearInterval(time);
+					};
+					banner.onmouseout = function(){
+						time = setInterval(show,2000);
+					}
+			}
+			function show(){
+				if(index == (imgsLen-1)){ //写成index>imgsLen很尴尬啊天呐
+					index = -1;
+				}
+				index+=1;
+				for(var i=0;i<imgsLen;i++){
+					imgs[i].style.zIndex = 1;
+					imgs[i].style.right = "-100%";
+					spans[i].className = "";
+				}
+				imgs[index].style.zIndex = 3;
+				spans[index].className = "dhcurrent";
+				timer = setInterval(function(){
+					imgs[index].style.right = 0;
+					if(imgs[index].style.right == 0){
+						clearInterval(timer);
+					}
+				},500);
+			}
+			autoplay();//开始自动播放
+			/*点击播放*/
+			for(var i = 0;i<imgsLen;i++){
+				let j = i;
+				spans[i].onclick = function(){
+					for(var i=0;i<imgsLen;i++){
+						imgs[i].style.zIndex = 1;
+						imgs[i].style.right = "-100%";
+						spans[i].className = "";
+					}
+					this.className = "dhcurrent";
+					imgs[j].style.zIndex = 3;
+					imgs[j].style.right = 0;
+				};
+			}
+		}
+		play();
+
+		</script>
+</body>
+</html>
